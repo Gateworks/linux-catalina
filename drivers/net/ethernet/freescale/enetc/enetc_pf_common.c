@@ -4,6 +4,7 @@
 #include <linux/fsl/enetc_mdio.h>
 #include <linux/of_mdio.h>
 #include <linux/of_net.h>
+#include <linux/regulator/consumer.h>
 
 #include "enetc_pf_common.h"
 
@@ -228,6 +229,22 @@ static int enetc_imdio_create(struct enetc_pf *pf)
 
 	snprintf(bus->id, MII_BUS_ID_SIZE, "%s-imdio", dev_name(dev));
 
+	mdio_priv->regulator = devm_regulator_get_optional(dev, "serdes");
+	if (IS_ERR(mdio_priv->regulator)) {
+		err = PTR_ERR(mdio_priv->regulator);
+		if (err == -EPROBE_DEFER)
+			goto free_mdio_bus;
+		mdio_priv->regulator = NULL;
+	}
+
+	if (mdio_priv->regulator) {
+		err = regulator_enable(mdio_priv->regulator);
+		if (err) {
+			dev_err(dev, "fail to enable phy-supply\n");
+			goto free_mdio_bus;
+		}
+	}
+
 	err = mdiobus_register(bus);
 	if (err) {
 		dev_err(dev, "cannot register internal MDIO bus (%d)\n", err);
@@ -255,6 +272,8 @@ free_mdio_bus:
 
 static void enetc_imdio_remove(struct enetc_pf *pf)
 {
+	struct enetc_mdio_priv *mdio_priv = pf->imdio->priv;
+
 	if (pf->pcs && pf->ops->destroy_pcs)
 		pf->ops->destroy_pcs(pf->pcs);
 
@@ -262,6 +281,9 @@ static void enetc_imdio_remove(struct enetc_pf *pf)
 		mdiobus_unregister(pf->imdio);
 		mdiobus_free(pf->imdio);
 	}
+
+	if (mdio_priv->regulator)
+		regulator_disable(mdio_priv->regulator);
 }
 
 static bool enetc_port_has_pcs(struct enetc_pf *pf)
