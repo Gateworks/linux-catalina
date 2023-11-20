@@ -53,6 +53,7 @@ config NXP_ENETC4
 	select NXP_ENETC_PF_COMMON
 	select NXP_NTMP
 	select PHYLINK
+	select PCS_XPCS
 	select DIMLIB
 	help
 	  This driver supports NXP ENETC devices with major revision 4. ENETC is
