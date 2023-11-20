@@ -25,6 +25,7 @@ enum dw_xpcs_pcs_id {
 	DW_XPCS_ID_NATIVE = 0,
 	NXP_SJA1105_XPCS_ID = 0x00000010,
 	NXP_SJA1110_XPCS_ID = 0x00000020,
+	NXP_MX95_XPCS_ID = 0x1b3274cd,
 	DW_XPCS_ID = 0x7996ced0,
 	DW_XPCS_ID_MASK = 0xffffffff,
 };
@@ -49,6 +50,7 @@ struct dw_xpcs_info {
 struct dw_xpcs;
 
 struct phylink_pcs *xpcs_to_phylink_pcs(struct dw_xpcs *xpcs);
+
 int xpcs_get_an_mode(struct dw_xpcs *xpcs, phy_interface_t interface);
 void xpcs_config_eee_mult_fact(struct dw_xpcs *xpcs, u8 mult_fact);
 struct dw_xpcs *xpcs_create_mdiodev(struct mii_bus *bus, int addr);
@@ -57,5 +59,21 @@ void xpcs_destroy(struct dw_xpcs *xpcs);
 
 struct phylink_pcs *xpcs_create_pcs_mdiodev(struct mii_bus *bus, int addr);
 void xpcs_destroy_pcs(struct phylink_pcs *pcs);
+#if IS_ENABLED(CONFIG_PCS_XPCS)
+struct phylink_pcs *xpcs_create_mdiodev_with_phy(struct mii_bus *bus,
+						 int mdioaddr, int phyaddr);
+void xpcs_pcs_destroy(struct phylink_pcs *pcs);
+#else
+static inline struct phylink_pcs *xpcs_create_mdiodev_with_phy(struct mii_bus *bus,
+						 int mdioaddr, int phyaddr)
+{
+	return ERR_PTR(-EOPNOTSUPP);
+}
+
+static inline void xpcs_pcs_destroy(struct phylink_pcs *pcs)
+{
+	return;
+}
+#endif /* IS_ENABLED(CONFIG_PCS_XPCS) */
 
 #endif /* __LINUX_PCS_XPCS_H */
