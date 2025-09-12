@@ -1432,6 +1432,13 @@ properties:
               - fsl,imx95-19x19-evk       # i.MX95 19x19 EVK Board
           - const: fsl,imx95
 
+      - description: Gateworks i.MX 95 based Boards
+        items:
+          - enum:
+              - gateworks,imx95-catalina-gw92xx-0x  # Gateworks i.MX95 board
+          - const: gateworks,imx95-catalina-gw900x  # Gateworks i.MX95 SoM
+          - const: fsl,imx95
+
       - description: PHYTEC i.MX 95 FPSC based Boards
         items:
           - enum:
