@@ -741,7 +741,7 @@ static int aqr_build_fingerprint(struct phy_device *phydev)
 	priv->fingerprint = AQR_FW_FINGERPRINT(fw_major, fw_minor, build_id,
 					       prov_id, misc_id, misc_ver);
 
-	phydev_dbg(phydev, "FW %u.%u, Build %u, Provisioning %u, Misc ID %u, Version %u\n",
+	phydev_info(phydev, "FW %u.%u, Build %u, Provisioning %u, Misc ID %u, Version %u\n",
 		   fw_major, fw_minor, build_id, prov_id, misc_id, misc_ver);
 
 	return 0;
