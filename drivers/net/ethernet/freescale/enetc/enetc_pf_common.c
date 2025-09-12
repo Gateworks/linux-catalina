@@ -248,6 +248,8 @@ static int enetc_imdio_create(struct enetc_pf *pf)
 	err = mdiobus_register(bus);
 	if (err) {
 		dev_err(dev, "cannot register internal MDIO bus (%d)\n", err);
+		if (mdio_priv->regulator)
+			regulator_disable(mdio_priv->regulator);
 		goto free_mdio_bus;
 	}
 
@@ -255,6 +257,8 @@ static int enetc_imdio_create(struct enetc_pf *pf)
 	if (IS_ERR(phylink_pcs)) {
 		err = PTR_ERR(phylink_pcs);
 		dev_err(dev, "cannot create PCS: %d\n", err);
+		if (mdio_priv->regulator)
+			regulator_disable(mdio_priv->regulator);
 		goto unregister_mdiobus;
 	}
 
@@ -277,13 +281,13 @@ static void enetc_imdio_remove(struct enetc_pf *pf)
 	if (pf->pcs && pf->ops->destroy_pcs)
 		pf->ops->destroy_pcs(pf->pcs);
 
+	if (mdio_priv->regulator)
+		regulator_disable(mdio_priv->regulator);
+
 	if (pf->imdio) {
 		mdiobus_unregister(pf->imdio);
 		mdiobus_free(pf->imdio);
 	}
-
-	if (mdio_priv->regulator)
-		regulator_disable(mdio_priv->regulator);
 }
 
 static bool enetc_port_has_pcs(struct enetc_pf *pf)
