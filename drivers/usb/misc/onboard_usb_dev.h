@@ -31,8 +31,8 @@ static const struct onboard_dev_pdata microchip_usb2514_data = {
 };
 
 static const struct onboard_dev_pdata microchip_usb5744_data = {
-	.reset_us = 0,
-	.power_on_delay_us = 10000,
+	.reset_us = 5,
+	.power_on_delay_us = 50000,
 	.num_supplies = 2,
 	.supply_names = { "vdd", "vdd2" },
 	.is_hub = true,
