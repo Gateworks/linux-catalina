@@ -934,7 +934,7 @@
 
 	pinctrl_pcie0: pcie0grp {
 		fsl,pins = <
-			IMX95_PAD_GPIO_IO18__GPIO2_IO_BIT18		0x31e /* PERST# */
+			IMX95_PAD_GPIO_IO18__GPIO2_IO_BIT18		0x51e /* PERST# */
 		>;
 	};
 
