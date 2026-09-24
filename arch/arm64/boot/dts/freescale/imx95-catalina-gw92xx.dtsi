@@ -546,7 +546,7 @@
 	cs-gpios = <&gpio2 24 GPIO_ACTIVE_LOW>, /* CS0 TPM */
 		   <&gpio5 14 GPIO_ACTIVE_LOW>, /* CS1 FSA1 */
 		   <&gpio5 13 GPIO_ACTIVE_LOW>, /* CS2 FSA2 */
-		   <&gpio5 12 GPIO_ACTIVE_LOW>; /* CS3 J7 */
+		   <&gpio5 12 GPIO_ACTIVE_LOW>; /* CS3 J22 */
 	status = "okay";
 
 	tpm@0 {
