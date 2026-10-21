@@ -1436,6 +1436,7 @@ properties:
         items:
           - enum:
               - gateworks,imx95-catalina-gw92xx-0x  # Gateworks i.MX95 board
+              - gateworks,imx95-catalina-gw94xx-0x  # Gateworks i.MX95 board
           - const: gateworks,imx95-catalina-gw900x  # Gateworks i.MX95 SoM
           - const: fsl,imx95
 
