@@ -1,0 +1,54 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright 2026 Gateworks Corporation
+ *
+ * GW92xx RS485 HD:
+ *  - rs485_term selects on-chip termination
+ *  - rs485_en needs to be driven high (active)
+ *  - rs485_hd needs to be driven high (active)
+ *  - UART2_TX is DE for RS485 transmitter
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+#include "imx95-pinfunc.h"
+
+/dts-v1/;
+/plugin/;
+
+&i2c2_gpio_expander_27 {
+	rs485-en-hog {
+		gpio-hog;
+		gpios = <13 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "rs485_en";
+	};
+
+	rs485-hd-hog {
+		gpio-hog;
+		gpios = <14 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "rs485_hd";
+	};
+};
+
+&lpuart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart1>;
+	linux,rs485-enabled-at-boot-time;
+	uart-has-rtscts;
+	status = "okay";
+};
+
+&lpuart2 {
+	status = "disabled";
+};
+
+&scmi_iomuxc {
+	pinctrl_uart1: uart1grp {
+		fsl,pins = <
+			IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX      0x31e
+			IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX      0x31e
+			IMX95_PAD_UART2_TXD__AONMIX_TOP_LPUART1_RTS_B	0x31e
+		>;
+	};
+};
