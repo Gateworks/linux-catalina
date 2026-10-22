@@ -381,6 +381,12 @@ imx95-catalina-gw92xx-0x-rs485-dtbs = imx95-catalina-gw92xx-0x.dtb imx95-catalin
 dtb-$(CONFIG_ARCH_MXC) += imx95-catalina-gw92xx-0x-rs422.dtb
 imx95-catalina-gw92xx-0x-rs422-dtbs = imx95-catalina-gw92xx-0x.dtb imx95-catalina-gw92xx-0x-rs422.dtbo
 dtb-$(CONFIG_ARCH_MXC) += imx95-catalina-gw94xx-0x.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx95-catalina-gw94xx-0x-rs232-rts.dtb
+imx95-catalina-gw94xx-0x-rs232-rts-dtbs = imx95-catalina-gw94xx-0x.dtb imx95-catalina-gw94xx-0x-rs232-rts.dtbo
+dtb-$(CONFIG_ARCH_MXC) += imx95-catalina-gw94xx-0x-rs485.dtb
+imx95-catalina-gw94xx-0x-rs485-dtbs = imx95-catalina-gw94xx-0x.dtb imx95-catalina-gw94xx-0x-rs485.dtbo
+dtb-$(CONFIG_ARCH_MXC) += imx95-catalina-gw94xx-0x-rs422.dtb
+imx95-catalina-gw94xx-0x-rs422-dtbs = imx95-catalina-gw94xx-0x.dtb imx95-catalina-gw94xx-0x-rs422.dtbo
 dtb-$(CONFIG_ARCH_MXC) += imx95-tqma9596sa-mb-smarc-2.dtb
 
 imx95-15x15-evk-pcie0-ep-dtbs = imx95-15x15-evk.dtb imx-pcie0-ep.dtbo

@@ -1,0 +1,46 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright 2026 Gateworks Corporation
+ *
+ * GW94xx RS232 with RTS/CTS hardware flow control:
+ *  - rs485_en needs to be driven low (in-active)
+ *  - UART2_TX becomes RTS
+ *  - UART2_TX becomes CTS
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+#include "imx95-pinfunc.h"
+
+/dts-v1/;
+/plugin/;
+
+&i2c2_gpio_expander_22 {
+	rs485-en-hog {
+		gpio-hog;
+		gpios = <12 GPIO_ACTIVE_HIGH>;
+		output-low;
+		line-name = "rs485_en";
+	};
+};
+
+&lpuart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart1>;
+	uart-has-rtscts;
+	status = "okay";
+};
+
+&lpuart2 {
+	status = "disabled";
+};
+
+&scmi_iomuxc {
+	pinctrl_uart1: uart1grp {
+		fsl,pins = <
+			IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX      0x31e
+			IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX      0x31e
+			IMX95_PAD_UART2_TXD__AONMIX_TOP_LPUART1_RTS_B	0x31e
+			IMX95_PAD_UART2_RXD__AONMIX_TOP_LPUART1_CTS_B	0x31e
+		>;
+	};
+};
